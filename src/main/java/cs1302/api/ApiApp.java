@@ -165,11 +165,13 @@ public class ApiApp extends Application {
         System.out.println("- stop");
     } // stop
 
+    /** method to load the weather and sunset times. */
     public void loadWeatherAndPlace() {
         this.loadWeather();
         this.loadSunTime();
     } // loadWeatherAndSong
 
+    /** method to load the weather. */
     public void loadWeather() {
         try {
             String location = URLEncoder.encode(cityField.getText(), StandardCharsets.UTF_8);
@@ -196,23 +198,13 @@ public class ApiApp extends Application {
                 "\ntemperature = " + temp +
                 "\nlatitude = " + lati +
                 "\nlongitude = " + longi + "\n");
-            // printWeatherConditions(weatherResponse);
         } catch (IOException | InterruptedException e) {
             System.err.println(e);
             e.printStackTrace();
         } // try
     } // load Weather
 
-    private static void printWeatherConditions(WeatherResponse weatherResponse) {
-        System.out.println();
-        System.out.println("********** PARSED WEATHER RESULTS: **********");
-        System.out.printf("location = %s\n", weatherResponse.resolvedAddress);
-        System.out.printf("conditions = %s\n", weatherResponse.currentConditions.conditions);
-        System.out.printf("temperature = %s\n", temp);
-        System.out.printf("latitude = %s\n", lati);
-        System.out.printf("longitude = %s\n", longi);
-    } // printWeatherConditions
-
+    /** Method to load the sunrise/sunset times. */
     public void loadSunTime() {
         try {
             String query = String.format("lat=%s&long=%s", lati, longi);
@@ -230,7 +222,6 @@ public class ApiApp extends Application {
                 this.sunSetTime = sunTimeResponse.results.sunset;
                 this.s1.setText("Sunrise:       \n" + sunRiseTime);
                 this.s2.setText("Sunset:        \n" + sunSetTime);
-                // printSunTimeResults(sunTimeResponse);
             } else {
                 throw new IOException("Sunset/Sunrise time was not fetched");
             }
@@ -239,12 +230,5 @@ public class ApiApp extends Application {
             e.printStackTrace();
         } // try
     } // loadSunTime
-
-    private static void printSunTimeResults(SunTimeResponse sunTimeResponse) {
-        System.out.println();
-        System.out.println("********** PARSED WEATHER RESULTS: **********");
-        System.out.printf("Sunrise Time = %s\n", sunRiseTime);
-        System.out.printf("Sunset Time = %s\n", sunSetTime);
-    } // printSunTimeResults
 
 } // ApiApp
